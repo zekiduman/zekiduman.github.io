@@ -1,0 +1,447 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Zeki Duman | Control, Modeling & Data for Biomedical Systems</title>
+<meta name="description" content="Zeki Duman is a PhD candidate in Electrical and Computer Engineering at UC Santa Barbara working on system identification, pharmacokinetic modeling, and closed-loop drug delivery.">
+<meta name="author" content="Zeki Duman">
+<meta property="og:title" content="Zeki Duman | Control, Modeling & Data for Biomedical Systems">
+<meta property="og:description" content="System identification, pharmacokinetic modeling, and model predictive control for real-time drug delivery.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#f5f2ec">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%230e5f58'/><text x='32' y='42' font-family='Georgia,serif' font-size='28' fill='white' text-anchor='middle'>ZD</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#f5f2ec; --paper-2:#ece7de; --card:#fbf9f5;
+  --ink:#191c1f; --ink-2:#4a4f55; --ink-3:#7b8087;
+  --line:#dcd5c8;
+  --accent:#0e5f58; --accent-soft:#d7e8e4;
+  --signal:#c2531b;
+  --serif:'Fraunces',Georgia,serif; --sans:'IBM Plex Sans',system-ui,sans-serif; --mono:'IBM Plex Mono',ui-monospace,monospace;
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --paper:#121614; --paper-2:#181d1b; --card:#1a201e;
+    --ink:#ece8e1; --ink-2:#b4b2ab; --ink-3:#85857f;
+    --line:#2c3431;
+    --accent:#5fc2b4; --accent-soft:#1d3532;
+    --signal:#f08a4b;
+  }
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:72px}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.65;-webkit-font-smoothing:antialiased}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+
+/* ---------- nav ---------- */
+nav{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--paper) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;height:60px;gap:16px}
+.brand{font-family:var(--serif);font-size:20px;font-weight:500;color:var(--ink)}
+.brand:hover{text-decoration:none}
+.links{display:flex;gap:26px;align-items:center;font-size:14.5px}
+.links a{color:var(--ink-2)}
+.links a:hover{color:var(--ink);text-decoration:none}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:9px 16px;border-radius:999px;font-size:14.5px;font-weight:500;border:1px solid var(--ink);color:var(--ink);transition:.15s}
+.btn:hover{text-decoration:none;background:var(--ink);color:var(--paper)}
+.btn.solid{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn.solid:hover{filter:brightness(1.1);background:var(--accent);color:#fff}
+@media (prefers-color-scheme:dark){.btn.solid{color:#0d1513}.btn.solid:hover{color:#0d1513}}
+.menu-toggle{display:none;background:none;border:0;color:var(--ink);font:inherit;cursor:pointer}
+
+/* ---------- hero ---------- */
+.hero{padding:84px 0 72px;border-bottom:1px solid var(--line)}
+.hero .wrap{display:grid;grid-template-columns:1.15fr .85fr;gap:56px;align-items:center}
+.status{display:inline-flex;align-items:center;gap:9px;font-family:var(--mono);font-size:12.5px;letter-spacing:.04em;text-transform:uppercase;color:var(--accent);background:var(--accent-soft);padding:6px 12px;border-radius:999px;margin-bottom:26px}
+.status i{width:7px;height:7px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 0 var(--accent);animation:pulse 2.2s infinite}
+@keyframes pulse{70%{box-shadow:0 0 0 7px transparent}100%{box-shadow:0 0 0 0 transparent}}
+h1{font-family:var(--serif);font-weight:500;font-size:clamp(44px,6vw,68px);line-height:1.02;letter-spacing:-.02em;margin-bottom:22px}
+.lede{font-size:clamp(18px,2vw,20.5px);color:var(--ink-2);max-width:560px;margin-bottom:32px}
+.lede em{font-style:normal;color:var(--ink);font-weight:500}
+.cta{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:30px}
+.social{display:flex;gap:22px;font-size:14.5px;flex-wrap:wrap}
+.social a{color:var(--ink-2);display:inline-flex;align-items:center;gap:7px}
+.social a:hover{color:var(--accent)}
+.social svg{width:16px;height:16px}
+
+.scope{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px 20px 14px}
+.scope-head{display:flex;justify-content:space-between;font-family:var(--mono);font-size:11.5px;color:var(--ink-3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px}
+.scope svg{width:100%;height:auto;display:block}
+.trace{stroke-dasharray:900;stroke-dashoffset:900;animation:draw 3.2s cubic-bezier(.4,.1,.2,1) .3s forwards}
+.dose{opacity:0;animation:fade .6s ease forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes fade{to{opacity:1}}
+.legend{display:flex;gap:18px;font-family:var(--mono);font-size:11.5px;color:var(--ink-3);margin-top:10px;flex-wrap:wrap}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend b{display:inline-block;width:14px;height:2px}
+
+/* ---------- sections ---------- */
+section{padding:84px 0;border-bottom:1px solid var(--line)}
+.sec-head{display:grid;grid-template-columns:200px 1fr;gap:40px;margin-bottom:40px}
+.eyebrow{font-family:var(--mono);font-size:12.5px;color:var(--ink-3);text-transform:uppercase;letter-spacing:.08em;padding-top:10px}
+.eyebrow span{color:var(--accent)}
+h2{font-family:var(--serif);font-weight:500;font-size:clamp(30px,3.6vw,40px);line-height:1.15;letter-spacing:-.01em}
+.body{margin-left:240px}
+.prose p{color:var(--ink-2);margin-bottom:16px;max-width:720px}
+.prose p strong{color:var(--ink);font-weight:500}
+
+.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-top:36px}
+.fact{background:var(--card);padding:22px 22px 20px}
+.fact .n{font-family:var(--serif);font-size:34px;line-height:1;margin-bottom:8px}
+.fact .l{font-size:14px;color:var(--ink-2)}
+
+/* research */
+.themes{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.theme{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:26px;display:flex;flex-direction:column}
+.theme .ic{width:42px;height:42px;border-radius:10px;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;margin-bottom:20px}
+.theme .ic svg{width:22px;height:22px}
+.theme h3{font-family:var(--serif);font-weight:500;font-size:21px;line-height:1.25;margin-bottom:12px}
+.theme p{font-size:15.5px;color:var(--ink-2);margin-bottom:18px}
+.theme ul{list-style:none;font-size:14.5px;color:var(--ink-2);margin-top:auto;border-top:1px dashed var(--line);padding-top:14px}
+.theme li{padding-left:16px;position:relative;margin-bottom:6px}
+.theme li::before{content:"";position:absolute;left:0;top:.7em;width:6px;height:6px;border-radius:50%;border:1.5px solid var(--accent)}
+
+/* publications */
+.pubs{list-style:none}
+.pub{display:grid;grid-template-columns:200px 1fr;gap:40px;padding:28px 0;border-top:1px solid var(--line)}
+.pub:last-child{border-bottom:1px solid var(--line)}
+.pub .meta{font-family:var(--mono);font-size:13px;color:var(--ink-3)}
+.pub .meta .yr{display:block;font-family:var(--serif);font-size:26px;color:var(--ink);margin-bottom:4px}
+.pub h3{font-family:var(--serif);font-weight:500;font-size:20px;line-height:1.35;margin-bottom:8px}
+.pub .authors{font-size:14.5px;color:var(--ink-2);margin-bottom:12px}
+.pub .authors b{color:var(--ink);font-weight:600}
+.tags{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.tag{font-family:var(--mono);font-size:12px;padding:3px 10px;border-radius:999px;border:1px solid var(--line);color:var(--ink-2)}
+.tag.first{border-color:var(--accent);color:var(--accent)}
+.tags a{font-size:14px;margin-left:4px}
+
+/* experience timeline */
+.tl{position:relative;padding-left:28px}
+.tl::before{content:"";position:absolute;left:5px;top:8px;bottom:8px;width:1px;background:var(--line)}
+.item{position:relative;padding-bottom:34px}
+.item:last-child{padding-bottom:0}
+.item::before{content:"";position:absolute;left:-28px;top:8px;width:11px;height:11px;border-radius:50%;background:var(--paper);border:2px solid var(--accent)}
+.item .when{font-family:var(--mono);font-size:12.5px;color:var(--ink-3);margin-bottom:4px}
+.item h3{font-size:18px;font-weight:600;line-height:1.35}
+.item .where{color:var(--ink-2);font-size:15.5px;margin-bottom:6px}
+.item p{font-size:15px;color:var(--ink-2)}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:56px}
+.col-title{font-family:var(--mono);font-size:12.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-3);margin-bottom:24px}
+
+/* skills */
+.skills{display:grid;grid-template-columns:repeat(2,1fr);gap:28px 48px}
+.skill h3{font-size:15px;font-weight:600;margin-bottom:12px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font-size:14px;padding:6px 12px;border-radius:8px;background:var(--paper-2);color:var(--ink)}
+
+/* teaching / awards */
+.list{list-style:none}
+.list li{display:flex;justify-content:space-between;gap:16px;padding:12px 0;border-bottom:1px dashed var(--line);font-size:15.5px}
+.list li span:last-child{font-family:var(--mono);font-size:13px;color:var(--ink-3);white-space:nowrap}
+.list code{font-family:var(--mono);font-size:13px;color:var(--accent);margin-right:10px}
+
+/* contact */
+.contact{padding:96px 0;border-bottom:0}
+.contact h2{font-size:clamp(36px,5vw,56px);max-width:760px;margin-bottom:22px}
+.contact p{color:var(--ink-2);max-width:600px;margin-bottom:30px;font-size:18px}
+.mail{font-family:var(--serif);font-size:clamp(22px,3vw,30px);border-bottom:2px solid var(--accent);padding-bottom:2px}
+.mail:hover{text-decoration:none;color:var(--ink)}
+footer{padding:28px 0 40px;font-size:13.5px;color:var(--ink-3)}
+footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+
+/* ---------- responsive ---------- */
+@media (max-width:900px){
+  .hero .wrap{grid-template-columns:1fr;gap:40px}
+  .sec-head,.pub{grid-template-columns:1fr;gap:10px}
+  .body{margin-left:0}
+  .themes{grid-template-columns:1fr}
+  .cols,.skills{grid-template-columns:1fr;gap:40px}
+  .eyebrow{padding-top:0}
+}
+@media (max-width:720px){
+  .wrap{padding:0 16px}
+  .links{display:none;position:absolute;top:60px;left:0;right:0;flex-direction:column;align-items:flex-start;gap:16px;padding:20px 16px 24px;background:var(--paper);border-bottom:1px solid var(--line)}
+  .links.open{display:flex}
+  .menu-toggle{display:block}
+  .hero{padding:52px 0 56px}
+  section{padding:60px 0}
+  .facts{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){.trace{animation:none;stroke-dashoffset:0}.dose{animation:none;opacity:1}.status i{animation:none}}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a class="brand" href="#top">Zeki Duman</a>
+    <button class="menu-toggle" aria-label="Toggle menu" onclick="document.querySelector('.links').classList.toggle('open')">Menu</button>
+    <div class="links">
+      <a href="#about">About</a>
+      <a href="#research">Research</a>
+      <a href="#publications">Publications</a>
+      <a href="#experience">Experience</a>
+      <a href="#skills">Skills</a>
+      <a class="btn" href="assets/Zeki_Duman_CV.pdf" target="_blank" rel="noopener">CV ↓</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap">
+    <div>
+      <div class="status"><i></i>PhD, Dec 2026 · Open to industry roles</div>
+      <h1>Models that keep the dose on target.</h1>
+      <p class="lede">I'm a PhD candidate in Electrical &amp; Computer Engineering at <em>UC Santa Barbara</em>. I build <em>pharmacokinetic models</em>, <em>system identification</em> methods and <em>model predictive controllers</em> that turn noisy, real-time biosensor data into accurate dosing decisions.</p>
+      <div class="cta">
+        <a class="btn solid" href="mailto:zekiduman95@gmail.com">Get in touch</a>
+        <a class="btn" href="assets/Zeki_Duman_CV.pdf" target="_blank" rel="noopener">Download CV</a>
+      </div>
+      <div class="social">
+        <a href="https://www.linkedin.com/in/zekiduman/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>LinkedIn</a>
+        <a href="https://scholar.google.com/citations?user=dwS7nSsAAAAJ&hl=en" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 24a7 7 0 1 1 0-14 7 7 0 0 1 0 14zm0-24L0 9.5l4.84 3.92A8.96 8.96 0 0 1 12 10c2.9 0 5.48 1.37 7.16 3.42L24 9.5 12 0z"/></svg>Google Scholar</a>
+        <a href="mailto:zekiduman@ucsb.edu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 6-10 7L2 6"/></svg>zekiduman@ucsb.edu</a>
+      </div>
+    </div>
+
+    <figure class="scope" aria-label="Illustration: a controlled drug concentration settling into its target band">
+      <div class="scope-head"><span>plasma concentration</span><span>closed loop · MPC</span></div>
+      <svg viewBox="0 0 400 240" role="img">
+        <g stroke="var(--line)" stroke-width="1">
+          <line x1="30" y1="40" x2="390" y2="40"/><line x1="30" y1="100" x2="390" y2="100"/><line x1="30" y1="160" x2="390" y2="160"/><line x1="30" y1="215" x2="390" y2="215"/>
+        </g>
+        <rect x="30" y="82" width="360" height="36" fill="var(--accent-soft)" opacity=".8"/>
+        <line x1="30" y1="100" x2="390" y2="100" stroke="var(--accent)" stroke-width="1.5" stroke-dasharray="5 5"/>
+        <!-- dosing bars -->
+        <g fill="var(--ink-3)" opacity=".45">
+          <rect class="dose" style="animation-delay:.3s" x="40" y="195" width="10" height="20"/>
+          <rect class="dose" style="animation-delay:.6s" x="62" y="200" width="10" height="15"/>
+          <rect class="dose" style="animation-delay:1.0s" x="98" y="205" width="10" height="10"/>
+          <rect class="dose" style="animation-delay:1.5s" x="150" y="208" width="10" height="7"/>
+          <rect class="dose" style="animation-delay:2.0s" x="205" y="207" width="10" height="8"/>
+          <rect class="dose" style="animation-delay:2.4s" x="260" y="208" width="10" height="7"/>
+          <rect class="dose" style="animation-delay:2.8s" x="315" y="207" width="10" height="8"/>
+          <rect class="dose" style="animation-delay:3.1s" x="365" y="208" width="10" height="7"/>
+        </g>
+        <!-- noisy measurements -->
+        <g fill="var(--signal)" opacity=".55">
+          <circle class="dose" style="animation-delay:.5s" cx="48" cy="182" r="2.2"/><circle class="dose" style="animation-delay:.7s" cx="70" cy="146" r="2.2"/>
+          <circle class="dose" style="animation-delay:.9s" cx="92" cy="104" r="2.2"/><circle class="dose" style="animation-delay:1.1s" cx="114" cy="86" r="2.2"/>
+          <circle class="dose" style="animation-delay:1.3s" cx="136" cy="88" r="2.2"/><circle class="dose" style="animation-delay:1.5s" cx="158" cy="101" r="2.2"/>
+          <circle class="dose" style="animation-delay:1.7s" cx="180" cy="94" r="2.2"/><circle class="dose" style="animation-delay:1.9s" cx="202" cy="104" r="2.2"/>
+          <circle class="dose" style="animation-delay:2.1s" cx="224" cy="97" r="2.2"/><circle class="dose" style="animation-delay:2.3s" cx="246" cy="103" r="2.2"/>
+          <circle class="dose" style="animation-delay:2.5s" cx="268" cy="98" r="2.2"/><circle class="dose" style="animation-delay:2.7s" cx="290" cy="102" r="2.2"/>
+          <circle class="dose" style="animation-delay:2.9s" cx="312" cy="97" r="2.2"/><circle class="dose" style="animation-delay:3.1s" cx="334" cy="101" r="2.2"/>
+          <circle class="dose" style="animation-delay:3.3s" cx="356" cy="99" r="2.2"/><circle class="dose" style="animation-delay:3.5s" cx="378" cy="100" r="2.2"/>
+        </g>
+        <!-- estimated / controlled trace -->
+        <path class="trace" d="M30 212 C 55 200, 70 150, 92 112 S 120 80, 140 90 S 170 104, 195 99 S 240 98, 270 100 S 340 100, 390 100" fill="none" stroke="var(--ink)" stroke-width="2.4" stroke-linecap="round"/>
+        <text x="34" y="34" font-family="IBM Plex Mono,monospace" font-size="10" fill="var(--ink-3)">μM</text>
+        <text x="352" y="232" font-family="IBM Plex Mono,monospace" font-size="10" fill="var(--ink-3)">time →</text>
+      </svg>
+      <div class="legend">
+        <span><b style="background:var(--signal)"></b>sensor reading</span>
+        <span><b style="background:var(--ink)"></b>model estimate</span>
+        <span><b style="background:var(--accent)"></b>target band</span>
+        <span><b style="background:var(--ink-3)"></b>dose</span>
+      </div>
+    </figure>
+  </div>
+</header>
+
+<main>
+<section id="about">
+  <div class="wrap">
+    <div class="sec-head"><div class="eyebrow"><span>01</span> / About</div><h2>Engineering rigor, applied to the living body.</h2></div>
+    <div class="body prose">
+      <p>My PhD sits between control engineering and pharmacology. Co-advised by <strong>Prof. João P. Hespanha</strong> (ECE) and <strong>Prof. Kevin W. Plaxco</strong> (Chemistry) at UCSB's Institute for Collaborative Biotechnologies, I work on a simple-sounding question: if we can measure a drug's concentration in the body every few seconds, can we dose it precisely enough to hold that concentration exactly where we want it?</p>
+      <p>Answering that has taken the full pipeline: <strong>signal processing</strong> to clean up raw electrochemical sensor data, <strong>compartmental PK models</strong> and <strong>parameter estimation</strong> to describe how drugs move between plasma and tissue, and <strong>model predictive and adaptive control</strong> to make dosing decisions in real time during in-vivo experiments. Along the way I've worked closely with chemists and life scientists to design experiments and translate results into decisions.</p>
+      <p>I'm finishing my PhD in December 2026 and looking for roles in <strong>pharmacometrics / quantitative pharmacology</strong>, <strong>model-informed drug development</strong>, and <strong>data science or modeling</strong> positions where time-series data, optimization and dynamical models meet real decisions.</p>
+      <div class="facts">
+        <div class="fact"><div class="n">3</div><div class="l">Peer-reviewed papers in ACS Sensors and ACS Pharmacology &amp; Translational Science</div></div>
+        <div class="fact"><div class="n">In vivo</div><div class="l">Controllers validated in live animal experiments, not just simulation</div></div>
+        <div class="fact"><div class="n">2×</div><div class="l">ECE Outstanding Teaching Assistant Award, UCSB (2021, 2022)</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="research">
+  <div class="wrap">
+    <div class="sec-head"><div class="eyebrow"><span>02</span> / Research</div><h2>From raw signal to dosing decision.</h2></div>
+    <div class="themes">
+      <article class="theme">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 12h3l2-6 4 12 3-9 2 3h6"/></svg></div>
+        <h3>Signal processing for real-time drug monitoring</h3>
+        <p>Electrochemical aptamer-based (EAB) sensors report drug levels every few seconds, but the raw voltammograms are noisy. I develop fitting and peak-extraction methods that make those measurements precise enough to act on.</p>
+        <ul><li>Multi-Gaussian with Laplacian voltammogram fitting</li><li>Peak extraction for square-wave voltammetry</li><li>Published in ACS Sensors, 2025</li></ul>
+      </article>
+      <article class="theme">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="7" height="7" rx="1.5"/><rect x="14" y="13" width="7" height="7" rx="1.5"/><path d="M10 7.5h4a3 3 0 0 1 3 3V13M14 16.5h-4a3 3 0 0 1-3-3V11"/></svg></div>
+        <h3>Pharmacokinetic modeling &amp; system identification</h3>
+        <p>I design compartmental PK models for drugs and metabolites in plasma and solid tissue, and fit them to high-frequency in-vivo data using nonlinear programming.</p>
+        <ul><li>Compartmental &amp; state-space ODE models</li><li>Parameter estimation with CasADi / IPOPT</li><li>Plasma-to-tissue transport kinetics</li></ul>
+      </article>
+      <article class="theme">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg></div>
+        <h3>Model-informed closed-loop drug delivery</h3>
+        <p>Using model predictive control with moving horizon estimation, I regulate methotrexate concentrations in real time in rats, and am extending this to population-based adaptive control across subjects.</p>
+        <ul><li>MPC + moving horizon estimation</li><li>Adaptive control for inter-subject variability</li><li>ACS Pharmacol. Transl. Sci., 2025</li></ul>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="publications">
+  <div class="wrap">
+    <div class="sec-head"><div class="eyebrow"><span>03</span> / Publications</div><h2>Selected papers</h2></div>
+    <ol class="pubs">
+      <li class="pub">
+        <div class="meta"><span class="yr">2026</span>May</div>
+        <div>
+          <h3>A Minimally Invasive, Subcutaneous Biosensor Reliably Estimates Plasma Methotrexate Exposure and Quantifies Plasma-to-Tissue Transport Kinetics</h3>
+          <p class="authors">J.M. Gibson, <b>Z. Duman</b>, N.A. Emmons, D.O. Sogbesan, J.P. Hespanha, C.B. Kirkpatrick, T.E. Kippin, K.W. Plaxco</p>
+          <div class="tags"><span class="tag">ACS Pharmacology &amp; Translational Science</span></div>
+        </div>
+      </li>
+      <li class="pub">
+        <div class="meta"><span class="yr">2025</span>May</div>
+        <div>
+          <h3>Improving Real-Time In Vivo Molecular Monitoring: Multi-Gaussian with Laplacian Voltammogram Fitting Enhances the Precision of Electrochemical Aptamer-Based Sensors</h3>
+          <p class="authors"><b>Z. Duman</b>, N.A. Emmons, T.E. Kippin, L. Sepunaru, J. Hespanha, K.W. Plaxco</p>
+          <div class="tags"><span class="tag first">First author</span><span class="tag">ACS Sensors</span></div>
+        </div>
+      </li>
+      <li class="pub">
+        <div class="meta"><span class="yr">2025</span>April</div>
+        <div>
+          <h3>Feedback Control over Plasma Drug Concentrations Achieves Rapid and Accurate Control over Solid-Tissue Drug Concentrations</h3>
+          <p class="authors">N.A. Emmons, <b>Z. Duman</b>, M.K. Erdal, J. Hespanha, T.E. Kippin, K.W. Plaxco</p>
+          <div class="tags"><span class="tag">ACS Pharmacology &amp; Translational Science</span><a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC11838736/" target="_blank" rel="noopener">Paper ↗</a></div>
+        </div>
+      </li>
+      <li class="pub">
+        <div class="meta"><span class="yr">In prep</span></div>
+        <div>
+          <h3>Population-based adaptive control for drug regulation across subjects with diverse pharmacokinetics</h3>
+          <p class="authors"><b>Z. Duman</b> et al.</p>
+          <div class="tags"><span class="tag first">First author</span><span class="tag">Manuscript in preparation</span></div>
+        </div>
+      </li>
+    </ol>
+    <p style="margin-top:24px;font-size:15px"><a href="https://scholar.google.com/citations?user=dwS7nSsAAAAJ&hl=en" target="_blank" rel="noopener">Full list on Google Scholar ↗</a></p>
+  </div>
+</section>
+
+<section id="experience">
+  <div class="wrap">
+    <div class="sec-head"><div class="eyebrow"><span>04</span> / Background</div><h2>Experience &amp; education</h2></div>
+    <div class="cols">
+      <div>
+        <div class="col-title">Research</div>
+        <div class="tl">
+          <div class="item">
+            <div class="when">2022 – present</div>
+            <h3>Graduate Research Assistant</h3>
+            <div class="where">Institute for Collaborative Biotechnologies, UC Santa Barbara</div>
+            <p>PK modeling, system identification, signal processing for EAB sensors, and model-informed closed-loop drug delivery in animal studies.</p>
+          </div>
+          <div class="item">
+            <div class="when">During PhD</div>
+            <h3>Teaching Assistant</h3>
+            <div class="where">ECE &amp; CS, UC Santa Barbara</div>
+            <p>Led discussions and hardware labs across five courses in signals, control, digital design and Python.</p>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="col-title">Education</div>
+        <div class="tl">
+          <div class="item">
+            <div class="when">2018 – Dec 2026 (expected)</div>
+            <h3>M.S. / Ph.D., Electrical &amp; Computer Engineering</h3>
+            <div class="where">UC Santa Barbara · GPA 3.68</div>
+            <p>System identification and control, applied to pharmacokinetic modeling and closed-loop drug delivery.</p>
+          </div>
+          <div class="item">
+            <div class="when">2017</div>
+            <h3>Study abroad, Electrical &amp; Computer Engineering</h3>
+            <div class="where">Columbia University · GPA 3.83</div>
+          </div>
+          <div class="item">
+            <div class="when">2013 – 2018</div>
+            <h3>B.S., Electrical &amp; Electronics Engineering, Minor in Economics</h3>
+            <div class="where">Boğaziçi University, Istanbul · GPA 3.91 · Dean's High Honors</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="wrap">
+    <div class="sec-head"><div class="eyebrow"><span>05</span> / Toolkit</div><h2>Skills</h2></div>
+    <div class="skills">
+      <div class="skill"><h3>Pharmacokinetic modeling</h3><div class="chips"><span class="chip">Compartmental PK</span><span class="chip">Parameter estimation</span><span class="chip">System identification</span><span class="chip">ODE / state-space models</span><span class="chip">Inter-subject variability</span></div></div>
+      <div class="skill"><h3>Control &amp; optimization</h3><div class="chips"><span class="chip">Model predictive control</span><span class="chip">Moving horizon estimation</span><span class="chip">Adaptive control</span><span class="chip">Nonlinear programming</span></div></div>
+      <div class="skill"><h3>Data &amp; signal analysis</h3><div class="chips"><span class="chip">Time-series analysis</span><span class="chip">Signal processing</span><span class="chip">Curve fitting</span><span class="chip">Noise reduction</span></div></div>
+      <div class="skill"><h3>Programming &amp; tools</h3><div class="chips"><span class="chip">Python</span><span class="chip">MATLAB</span><span class="chip">NumPy</span><span class="chip">SciPy</span><span class="chip">CasADi</span><span class="chip">IPOPT</span><span class="chip">Simulink</span></div></div>
+      <div class="skill"><h3>Languages</h3><div class="chips"><span class="chip">Turkish (native)</span><span class="chip">English (fluent)</span><span class="chip">Korean (intermediate)</span></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="teaching">
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <div class="col-title">Teaching at UCSB</div>
+        <ul class="list">
+          <li><span><code>ECE 130A</code>Signals and Systems</span></li>
+          <li><span><code>ECE 147C</code>Advanced Control Laboratory</span></li>
+          <li><span><code>ECE 152A</code>Digital Design Principles</span></li>
+          <li><span><code>ECE 15A</code>Fundamentals of Logic Design</span></li>
+          <li><span><code>CS 8</code>Introduction to Computer Science (Python)</span></li>
+        </ul>
+      </div>
+      <div>
+        <div class="col-title">Honors &amp; service</div>
+        <ul class="list">
+          <li><span>ECE Outstanding Teaching Assistant Award, UCSB</span><span>2021, 2022</span></li>
+          <li><span>Treasurer, ECE Graduate Student Association</span><span>2023, 2024</span></li>
+          <li><span>Ranked 24th nationally, University Entrance Exam (Turkey)</span><span>2013</span></li>
+          <li><span>High School Valedictorian</span><span>2013</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <div class="wrap">
+    <div class="eyebrow" style="margin-bottom:18px"><span>06</span> / Contact</div>
+    <h2>Building something where models meet patients or data?</h2>
+    <p>I graduate in December 2026 and I'm happy to talk about pharmacometrics, quantitative modeling, and data science roles.</p>
+    <a class="mail" href="mailto:zekiduman95@gmail.com">zekiduman95@gmail.com</a>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Zeki Duman · Santa Barbara, CA</span>
+    <span><a href="https://www.linkedin.com/in/zekiduman/">LinkedIn</a> · <a href="https://scholar.google.com/citations?user=dwS7nSsAAAAJ&hl=en">Scholar</a> · <a href="assets/Zeki_Duman_CV.pdf">CV</a></span>
+  </div>
+</footer>
+
+<script>
+document.querySelectorAll('.links a').forEach(a=>a.addEventListener('click',()=>document.querySelector('.links').classList.remove('open')));
+</script>
+</body>
+</html>
