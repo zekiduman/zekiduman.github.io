@@ -1,5 +1,7 @@
 # zekiduman.github.io
 
+Live at https://zekiduman.github.io
+
 Personal website of Zeki Duman: a single static page (no build step), hosted on GitHub Pages.
 
 ## Files
